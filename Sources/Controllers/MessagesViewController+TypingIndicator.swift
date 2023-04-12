@@ -55,6 +55,7 @@ extension MessagesViewController {
     if animated {
       messagesCollectionView.performBatchUpdates({ [weak self] in
         self?.performUpdatesForTypingIndicatorVisability(at: section)
+        messagesCollectionView.reloadData()
         updates?()
       }, completion: completion)
     } else {

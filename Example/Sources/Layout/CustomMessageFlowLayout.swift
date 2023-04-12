@@ -33,6 +33,9 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
     if isSectionReservedForTypingIndicator(indexPath.section) {
       return typingIndicatorSizeCalculator
     }
+    if indexPath.section >= messagesDataSource.numberOfSections(in: messagesCollectionView) {
+      return typingIndicatorSizeCalculator
+    }
     let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
     if case .custom = message.kind {
       return customMessageSizeCalculator
