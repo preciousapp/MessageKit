@@ -318,7 +318,7 @@ open class MessagesViewController: UIViewController, UICollectionViewDelegateFlo
 
   // MARK: - Private methods
 
-  private func setupDefaults() {
+  open func setupDefaults() {
     extendedLayoutIncludesOpaqueBars = true
     view.backgroundColor = .collectionViewBackground
     messagesCollectionView.keyboardDismissMode = .interactive
@@ -326,11 +326,11 @@ open class MessagesViewController: UIViewController, UICollectionViewDelegateFlo
     messagesCollectionView.backgroundColor = .collectionViewBackground
   }
 
-  private func setupSubviews() {
+  open func setupSubviews() {
     view.addSubviews(messagesCollectionView, inputContainerView)
   }
 
-  private func setupConstraints() {
+  open func setupConstraints() {
     messagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
     /// Constraints of inputContainerView are managed by keyboardManager
     inputContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -343,12 +343,12 @@ open class MessagesViewController: UIViewController, UICollectionViewDelegateFlo
     ])
   }
 
-  private func setupDelegates() {
+  open func setupDelegates() {
     messagesCollectionView.delegate = self
     messagesCollectionView.dataSource = self
   }
 
-  private func setupInputBar(for kind: MessageInputBarKind) {
+  open func setupInputBar(for kind: MessageInputBarKind) {
     inputContainerView.subviews.forEach { $0.removeFromSuperview() }
 
     func pinViewToInputContainer(_ view: UIView) {
