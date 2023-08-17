@@ -218,7 +218,9 @@ open class MessageContentCell: MessageCollectionViewCell {
     case .cellTrailing:
       origin.x = attributes.frame.width - attributes.avatarSize.width - padding
     case .natural:
-      fatalError(MessageKitError.avatarPositionUnresolved)
+      // No need to trigger an exception. Assume cellLeading position
+      origin.x = padding
+//      fatalError(MessageKitError.avatarPositionUnresolved)
     }
 
     switch attributes.avatarPosition.vertical {
@@ -274,7 +276,9 @@ open class MessageContentCell: MessageCollectionViewCell {
       origin.x = attributes.frame.width - attributes.avatarSize.width - attributes.messageContainerSize.width - attributes
         .messageContainerPadding.right - avatarPadding
     case .natural:
-      fatalError(MessageKitError.avatarPositionUnresolved)
+      // No need to trigger an exception. Assume cellLeading position
+      origin.x = attributes.avatarSize.width + attributes.messageContainerPadding.left + avatarPadding
+//      fatalError(MessageKitError.avatarPositionUnresolved)
     }
 
     messageContainerView.frame = CGRect(origin: origin, size: attributes.messageContainerSize)
@@ -354,7 +358,9 @@ open class MessageContentCell: MessageCollectionViewCell {
       origin.x = messageContainerView.frame.minX - attributes.accessoryViewPadding.right - attributes.accessoryViewSize
         .width
     case .natural:
-      fatalError(MessageKitError.avatarPositionUnresolved)
+      // No need to trigger an exception. Assume cellLeading position
+      origin.x = messageContainerView.frame.maxX + attributes.accessoryViewPadding.left
+//      fatalError(MessageKitError.avatarPositionUnresolved)
     }
 
     accessoryView.frame = CGRect(origin: origin, size: attributes.accessoryViewSize)
