@@ -50,15 +50,16 @@ extension MessagesViewController {
     }
 
     let section = messagesCollectionView.numberOfSections
-    messagesCollectionView.setTypingIndicatorViewHidden(isHidden)
 
     if animated {
       messagesCollectionView.performBatchUpdates({ [weak self] in
+        self?.messagesCollectionView.setTypingIndicatorViewHidden(isHidden)
         self?.performUpdatesForTypingIndicatorVisability(at: section)
         messagesCollectionView.reloadData()
         updates?()
       }, completion: completion)
     } else {
+      messagesCollectionView.setTypingIndicatorViewHidden(isHidden)
       performUpdatesForTypingIndicatorVisability(at: section)
       updates?()
       completion?(true)
