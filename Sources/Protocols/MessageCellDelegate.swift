@@ -157,6 +157,8 @@ public protocol MessageCellDelegate: MessageLabelDelegate {
   /// `indexPath(for: cell)` method. Then using the returned `IndexPath` with the `MessagesDataSource`
   /// method `messageForItem(at:indexPath:messagesCollectionView)`.
   func didStopAudio(in cell: AudioMessageCell)
+    
+    func didSelectAction(action: MessageAction, in cell: MessageCollectionViewCell)
 }
 
 extension MessageCellDelegate {

@@ -251,6 +251,10 @@ open class MessageSizeCalculator: CellSizeCalculator {
     return messagesLayout.itemWidth - avatarWidth - messagePadding.horizontal - accessoryWidth - accessoryPadding
       .horizontal - avatarLeadingTrailingPadding
   }
+    
+    open func messageContainerMinWidth(for message: MessageType, at indexPath: IndexPath) -> CGFloat {
+        return 0
+    }
 
   // MARK: Public
 
@@ -285,6 +289,8 @@ open class MessageSizeCalculator: CellSizeCalculator {
 
   public var incomingAccessoryViewPosition: AccessoryPosition = .messageCenter
   public var outgoingAccessoryViewPosition: AccessoryPosition = .messageCenter
+
+    public var messageControlsHeight: CGFloat = 40
 
   // MARK: - Helpers
 

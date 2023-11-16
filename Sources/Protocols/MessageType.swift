@@ -36,4 +36,9 @@ public protocol MessageType {
 
   /// The kind of message and its underlying kind.
   var kind: MessageKind { get }
+    
+    var showActions: Bool { get }
+    
+    var messageActions: [MessageAction] { get }
+
 }

@@ -192,6 +192,11 @@ public protocol MessagesDataSource: AnyObject {
   ///   - messagesCollectionView: The `MessagesCollectionView` the cell is to be rendered in
   /// - Returns: A `UICollectionViewCell` that indicates a user is typing
   func typingIndicator(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell
+    
+    
+    func messageActionLocalizedTitle(for _: MessageAction) -> String?
+    
+    func messageActionSymbol(for _: MessageAction) -> String?
 }
 
 extension MessagesDataSource {
@@ -261,4 +266,12 @@ extension MessagesDataSource {
   {
     messagesCollectionView.dequeueReusableCell(TypingIndicatorCell.self, for: indexPath)
   }
+    
+    public func messageActionLocalizedTitle(for _: MessageAction) -> String? {
+        nil
+    }
+    
+    public func messageActionSymbol(for _: MessageAction) -> String? {
+        nil
+    }
 }

@@ -31,9 +31,17 @@ open class TextMessageSizeCalculator: MessageSizeCalculator {
     let textInsets = messageLabelInsets(for: message)
     return maxWidth - textInsets.horizontal
   }
+    
+    open override func messageContainerMinWidth(for message: MessageType, at indexPath: IndexPath) -> CGFloat {
+        if message.showActions {
+            return 320
+        }
+        return 0
+    }
 
   open override func messageContainerSize(for message: MessageType, at indexPath: IndexPath) -> CGSize {
     let maxWidth = messageContainerMaxWidth(for: message, at: indexPath)
+      let minWidth = messageContainerMinWidth(for: message, at: indexPath)
 
     var messageContainerSize: CGSize
     let attributedText: NSAttributedString
@@ -52,8 +60,13 @@ open class TextMessageSizeCalculator: MessageSizeCalculator {
 
     let messageInsets = messageLabelInsets(for: message)
     messageContainerSize.width += messageInsets.horizontal
+      messageContainerSize.width = max(messageContainerSize.width, minWidth)
     messageContainerSize.height += messageInsets.vertical
 
+      if message.showActions {
+          messageContainerSize.height += messageControlsHeight
+      }
+      
     return messageContainerSize
   }
 

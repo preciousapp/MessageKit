@@ -49,6 +49,7 @@ open class MessageContentCell: MessageCollectionViewCell {
     let containerView = MessageContainerView()
     containerView.clipsToBounds = true
     containerView.layer.masksToBounds = true
+      containerView.isUserInteractionEnabled = true
     return containerView
   }()
 

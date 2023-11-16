@@ -24,8 +24,16 @@ import UIKit
 
 /// A subclass of `MessageContentCell` used to display text messages.
 open class TextMessageCell: MessageContentCell {
+    var messagesDataSource: MessagesDataSource?
+
   /// The label used to display the message's text.
   open var messageLabel = MessageLabel()
+    lazy var messageControls: MessageActionCollectionView = {
+        let elem = MessageActionCollectionView()
+        elem.listener = self
+        elem.dataSource = self
+        return elem
+    }()
 
   // MARK: - Properties
 
@@ -51,13 +59,25 @@ open class TextMessageCell: MessageContentCell {
     super.prepareForReuse()
     messageLabel.attributedText = nil
     messageLabel.text = nil
+//      messageControls.actions = []
   }
 
   open override func setupSubviews() {
     super.setupSubviews()
     messageContainerView.addSubview(messageLabel)
+      messageContainerView.addSubview(messageControls)
+      messageControls.layout()
+      setupConstraints()
   }
 
+    open func setupConstraints() {
+        messageControls.addConstraints(
+          left: messageContainerView.leftAnchor,
+          bottom: messageContainerView.bottomAnchor,
+          right: messageContainerView.rightAnchor,
+          heightConstant: 40)
+    }
+    
   open override func configure(
     with message: MessageType,
     at indexPath: IndexPath,
@@ -68,6 +88,10 @@ open class TextMessageCell: MessageContentCell {
     guard let displayDelegate = messagesCollectionView.messagesDisplayDelegate else {
       fatalError(MessageKitError.nilMessagesDisplayDelegate)
     }
+      guard let dataSource = messagesCollectionView.messagesDataSource else {
+        fatalError(MessageKitError.nilMessagesDataSource)
+      }
+      self.messagesDataSource = dataSource
 
     let enabledDetectors = displayDelegate.enabledDetectors(for: message, at: indexPath, in: messagesCollectionView)
 
@@ -92,11 +116,38 @@ open class TextMessageCell: MessageContentCell {
         break
       }
     }
+      
+      let messageControlColor = displayDelegate.actionBackgroundColor(for: message, at: indexPath, in: messagesCollectionView)
+      messageControls.actionBackgroundColor = messageControlColor
+      
+      messageControls.actions = message.messageActions
+      messageControls.isHidden = !message.showActions
   }
 
   /// Used to handle the cell's contentView's tap gesture.
   /// Return false when the contentView does not need to handle the gesture.
   open override func cellContentView(canHandle touchPoint: CGPoint) -> Bool {
-    messageLabel.handleGesture(touchPoint)
+      if messageLabel.handleGesture(touchPoint) {
+          return true
+      }
+      if CGRectContainsPoint(self.messageControls.frame, touchPoint) {
+          return true
+      }
+      return false
   }
+}
+
+extension TextMessageCell: MessageActionCollectionViewListener {
+    func didSelectAction(action: MessageAction) {
+        self.delegate?.didSelectAction(action: action, in: self)
+    }
+}
+
+extension TextMessageCell: MessageActionCollectionViewDataSource {
+    func localizedTitle(action: MessageAction) -> String? {
+        return self.messagesDataSource?.messageActionLocalizedTitle(for: action)
+    }
+    func symbol(action: MessageAction) -> String? {
+        return self.messagesDataSource?.messageActionSymbol(for: action)
+    }
 }

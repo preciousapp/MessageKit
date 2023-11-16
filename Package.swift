@@ -24,7 +24,7 @@ import PackageDescription
 
 let package = Package(
     name: "MessageKit",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(name: "MessageKit", targets: ["MessageKit"]),
         .plugin(name: "SwiftLintPlugin", targets: ["SwiftLintPlugin"]),
