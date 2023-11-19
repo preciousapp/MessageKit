@@ -13,6 +13,7 @@ public enum MessageAction {
     case reask // copy & paste into input
     case regenerate // remove last user message and ai response, and reask automatically
     case visualize
+    case stopStream
     case speakOn
     case speakOff
     
@@ -28,6 +29,8 @@ public enum MessageAction {
             return "Regenerate"
         case .visualize:
             return "Visualize"
+        case .stopStream:
+            return "Stop"
         case .speakOn:
             return "Speak"
         case .speakOff:
@@ -47,6 +50,8 @@ public enum MessageAction {
             return "arrow.clockwise"
         case .visualize:
             return "photo.artframe"
+        case .stopStream:
+            return "stop"
         case .speakOn:
             return "speaker.wave.2"
         case .speakOff:
@@ -66,8 +71,9 @@ protocol MessageActionCollectionViewDataSource {
 }
 
 class MessageActionCollectionView: UIView {
-    private let sidePadding = 12.0
-    
+    private let sidePadding: CGFloat = 12
+    private let bottomPadding: CGFloat = 4
+
     public var listener: MessageActionCollectionViewListener?
     public var dataSource: MessageActionCollectionViewDataSource?
 
@@ -86,7 +92,7 @@ class MessageActionCollectionView: UIView {
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: sidePadding, bottom: 0, right: sidePadding)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: sidePadding, bottom: bottomPadding, right: sidePadding)
     
         return collectionView
     }()
@@ -109,7 +115,7 @@ class MessageActionCollectionView: UIView {
             collectionView.topAnchor.constraint(equalTo: self.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -bottomPadding)
         ])
         
       
@@ -181,7 +187,7 @@ class MessageActionCell: UICollectionViewCell {
             config.baseBackgroundColor = baseBackgroundColor
         }
         config.attributedTitle = AttributedString(title,
-                                                  attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)]))
+                                                  attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13.5)]))
         config.image = UIImage(systemName: symbolName)?.applyingSymbolConfiguration(.init(pointSize: 12))
         config.imagePlacement = .leading
         config.imagePadding = 8

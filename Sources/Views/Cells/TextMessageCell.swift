@@ -117,6 +117,9 @@ open class TextMessageCell: MessageContentCell {
       }
     }
       
+      let isFromCurrentSender = dataSource.isFromCurrentSender(message: message)
+      messageControls.collectionView.contentInset.left = isFromCurrentSender ? 14 : 18 // From TextMessageSizeCalculator
+      
       let messageControlColor = displayDelegate.actionBackgroundColor(for: message, at: indexPath, in: messagesCollectionView)
       messageControls.actionBackgroundColor = messageControlColor
       
