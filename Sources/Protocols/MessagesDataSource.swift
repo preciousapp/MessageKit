@@ -266,12 +266,4 @@ extension MessagesDataSource {
   {
     messagesCollectionView.dequeueReusableCell(TypingIndicatorCell.self, for: indexPath)
   }
-    
-    public func messageActionLocalizedTitle(for _: MessageAction) -> String? {
-        nil
-    }
-    
-    public func messageActionSymbol(for _: MessageAction) -> String? {
-        nil
-    }
 }
