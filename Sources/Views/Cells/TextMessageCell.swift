@@ -141,8 +141,8 @@ open class TextMessageCell: MessageContentCell {
 }
 
 extension TextMessageCell: MessageActionCollectionViewListener {
-    func didSelectAction(action: MessageAction) {
-        self.delegate?.didSelectAction(action: action, in: self)
+    func didSelectAction(action: MessageAction, actionCell: MessageActionCell) {
+        self.delegate?.didSelectAction(action: action, actionCell: actionCell, in: self)
     }
 }
 

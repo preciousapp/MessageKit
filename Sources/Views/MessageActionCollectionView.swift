@@ -61,7 +61,7 @@ public enum MessageAction {
 }
 
 protocol MessageActionCollectionViewListener {
-    func didSelectAction(action: MessageAction)
+    func didSelectAction(action: MessageAction, actionCell: MessageActionCell)
 
 }
 
@@ -142,8 +142,11 @@ extension MessageActionCollectionView: UICollectionViewDelegate {
     // MARK: UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let actionCell = collectionView.cellForItem(at: indexPath) as? MessageActionCell else {
+            return
+        }
         let action = self.actions[indexPath.item]
-        self.listener?.didSelectAction(action: action)
+        self.listener?.didSelectAction(action: action, actionCell: actionCell)
         self.animateCellPush(collectionView, itemAt: indexPath)
     }
     
@@ -177,7 +180,7 @@ extension MessageActionCollectionView: UICollectionViewDelegateFlowLayout {
     }
 }
 
-class MessageActionCell: UICollectionViewCell {
+public class MessageActionCell: UICollectionViewCell {
     public let button = UIButton(configuration: .filled(), primaryAction: nil)
 
     static func buttonConfiguration(with symbolName: String, title: String, baseBackgroundColor: UIColor? = nil) -> UIButton.Configuration {

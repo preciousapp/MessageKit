@@ -158,7 +158,7 @@ public protocol MessageCellDelegate: MessageLabelDelegate {
   /// method `messageForItem(at:indexPath:messagesCollectionView)`.
   func didStopAudio(in cell: AudioMessageCell)
     
-    func didSelectAction(action: MessageAction, in cell: MessageCollectionViewCell)
+    func didSelectAction(action: MessageAction, actionCell: MessageActionCell, in cell: MessageCollectionViewCell)
 }
 
 extension MessageCellDelegate {
