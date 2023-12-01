@@ -325,12 +325,24 @@ open class MessageSizeCalculator: CellSizeCalculator {
 
   internal func labelSize(for attributedText: NSAttributedString, considering maxWidth: CGFloat) -> CGSize {
     let constraintBox = CGSize(width: maxWidth, height: .greatestFiniteMagnitude)
-    let rect = attributedText.boundingRect(
-      with: constraintBox,
-      options: [.usesLineFragmentOrigin, .usesFontLeading],
-      context: nil).integral
+//    let rect = attributedText.boundingRect(
+//      with: constraintBox,
+//      options: [.usesLineFragmentOrigin, .usesFontLeading],
+//      context: nil).integral
 
-    return rect.size
+      // Fix for slow boundingRect calculation
+      // https://developer.apple.com/forums/thread/698884
+      // https://github.com/kimuyonsoku/BoundingRectTest/blob/fbf9c9d145b9dcd2b8fbd62e85dbd3adc67a80e0/BoundingRectTest/ViewController.swift#L35-L41
+      
+      let layoutManager = NSLayoutManager()
+      let textContainer = NSTextContainer(size: CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
+      let textStorage = NSTextStorage(attributedString: attributedText)
+      layoutManager.addTextContainer(textContainer)
+      textStorage.addLayoutManager(layoutManager)
+      textContainer.lineFragmentPadding = 0.0
+      let usedRect = layoutManager.usedRect(for: textContainer)
+      
+      return CGSize(width: ceil(usedRect.width), height: ceil(usedRect.height))
   }
 }
 
