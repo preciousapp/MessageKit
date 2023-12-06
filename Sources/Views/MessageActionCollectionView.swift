@@ -17,7 +17,7 @@ public enum MessageAction {
     case speakOn
     case speakOff
     
-    var localizedTitle: String {
+    public var localizedTitle: String {
         switch self {
         case .copy:
             return "Copy"
