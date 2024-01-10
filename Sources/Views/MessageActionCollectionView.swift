@@ -16,6 +16,8 @@ public enum MessageAction {
     case stopStream
     case speakOn
     case speakOff
+    case upvoteAnswer
+    case downvoteAnswer
     
     public var localizedTitle: String {
         switch self {
@@ -35,6 +37,8 @@ public enum MessageAction {
             return "Speak"
         case .speakOff:
             return "Stop"
+        default:
+            return ""
         }
     }
     
@@ -56,6 +60,11 @@ public enum MessageAction {
             return "speaker.wave.2"
         case .speakOff:
             return "speaker.slash"
+        case .upvoteAnswer:
+            return "hand.thumbsup"
+        case .downvoteAnswer:
+            return "hand.thumbsdown"
+            
         }
     }
 }
